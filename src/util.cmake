@@ -80,3 +80,57 @@ function(all_targets var)
 
 	set("${var}" "${out}" PARENT_SCOPE)
 endfunction()
+
+function(get_source_file_language var source)
+	get_source_file_property(out "${source}" LANGUAGE)
+	if (NOT out)
+		get_filename_component(source_ext "${source}" EXT)
+		string(SUBSTRING "${source_ext}" 1 -1 source_ext) # remove leading dot
+		get_property(languages GLOBAL PROPERTY ENABLED_LANGUAGES)
+		foreach (lang ${languages})
+			set(extensions "${CMAKE_${lang}_SOURCE_FILE_EXTENSIONS}")
+			if ("${source_ext}" IN_LIST extensions)
+				if (out)
+					message(SEND_ERROR "multiple languages found for ${source}")
+				endif()
+				set(out "${lang}")
+			endif()
+		endforeach()
+	endif()
+	set("${var}" "${out}" PARENT_SCOPE)
+endfunction()
+
+function(get_target_languages var target)
+	set(out)
+	get_target_property(sources "${target}" SOURCES)
+	foreach (source ${sources})
+		get_source_file_language(lang "${source}")
+		if (lang)
+			list(APPEND out "${lang}")
+		endif()
+	endforeach()
+	list(REMOVE_DUPLICATES out)
+
+	set("${var}" "${out}" PARENT_SCOPE)
+endfunction()
+
+function(get_target_language var target)
+	cmake_parse_arguments(
+		PARSE_ARGV 2 _ARG
+		"" "" "REQUIRED"
+	)
+
+	get_target_property(out "${target}" LINKER_LANGUAGE)
+	if (NOT out)
+		get_target_languages(out "${target}")
+		list(LENGTH out len)
+		if (len GREATER 1)
+			message(FATAL_ERROR "multiple languages found for ${target}: ${out} ${lang}")
+		endif()
+	endif()
+
+	if (NOT out AND _ARG_REQUIRED)
+		message(FATAL_ERROR "could not determine language for ${target}")
+	endif()
+	set("${var}" "${out}" PARENT_SCOPE)
+endfunction()
