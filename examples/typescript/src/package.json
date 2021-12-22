@@ -1,0 +1,18 @@
+{
+	"name": "@NODE_MODULE_NAME@",
+	"description": "@PROJECT_DESCRIPTION@",
+	"homepage": "@PROJECT_HOMEPAGE_URL@",
+	"author": "@PROJECT_EXTRA_AUTHOR@",
+	"license": "@PROJECT_EXTRA_LICENSE",
+	"version": "@PROJECT_VERSION@@PROJECT_EXTRA_VERSION@",
+	"repository": {
+		"url": "@PROJECT_EXTRA_REPO@",
+		"directory": "examples/typescript"
+	},
+	"bin": {
+		"example": "./index.js"
+	},
+	"dependencies": {
+		"example-lib": "@PROJECT_VERSION@"
+	}
+}

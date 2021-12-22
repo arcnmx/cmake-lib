@@ -1,7 +1,7 @@
 { pkgs ? import <nixpkgs> { } }: with pkgs; with lib; let
   cmake-lib = callPackage ./derivation.nix { };
   shell = mkShell {
-    nativeBuildInputs = [ cmake ];
+    nativeBuildInputs = [ cmake nodePackages.typescript ];
   };
 in cmake-lib // {
   inherit shell;

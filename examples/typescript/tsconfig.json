@@ -1,0 +1,21 @@
+{
+	"compilerOptions": {
+		"target": "ES2020",
+		"module": "ES2020",
+		"moduleResolution": "Node",
+		"strict": true,
+		"forceConsistentCasingInFileNames": true,
+		"isolatedModules": true,
+		"esModuleInterop": true,
+		"noImplicitAny": true,
+		"outDir": "build/ts",
+		"paths": {
+			"example-lib": ["./lib"]
+		}
+	},
+	"references": [
+		{ "path": "src" },
+		{ "path": "lib" }
+	],
+	"files": []
+}
