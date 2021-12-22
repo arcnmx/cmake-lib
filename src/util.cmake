@@ -41,8 +41,8 @@ function(all_subdirectories var)
 	endif()
 
 	foreach (dir ${dirs})
-		subdirectories(dirs ${dir})
-		list(APPEND out ${dir} ${dirs})
+		all_subdirectories(dirs DIRECTORY "${dir}")
+		list(APPEND out "${dir}" ${dirs})
 	endforeach()
 
 	set("${var}" "${out}" PARENT_SCOPE)
